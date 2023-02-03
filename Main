@@ -122,7 +122,7 @@ class Main
                                             break;
                                         }
                                     }
-                                    if(j.equals(next))
+                                    else if(j.equals(next))
                                     {
                                         next=routetemp.get(0);
                                         System.out.print(i+" ");
