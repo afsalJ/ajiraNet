@@ -1,0 +1,154 @@
+import java.util.*;
+
+class Main
+{
+    public static void main(String args[])
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.print("Enter the number of operations:");
+        int n=sc.nextInt();
+        int num=n;
+        List<List<String>> av_computers=new ArrayList<>();
+        List<List<String>> connected=new ArrayList<>();
+        while(n>0)
+        {
+            List<String> temp=new ArrayList<>();
+            if(num==n)sc.nextLine();
+            String input=sc.nextLine();
+            String inputs[]=input.split(" ");
+            for(String i:inputs)
+                System.out.print(i+" ");
+            System.out.println();
+            if(inputs.length!=3)
+            {
+                System.out.println("Invalid");
+            }
+            else
+            {
+                String opp=inputs[0];
+                String y =inputs[1];
+                String z=inputs[2];
+                switch(opp)
+                {
+                    case "ADD":
+                    {
+                        if(!(inputs[1].equals("COMPUTER") || inputs[1].equals("REPEATER")))System.out.print("Invalid");
+                        else
+                        {
+                            boolean flag=false;
+                            for(List<String> addtemp:av_computers)
+                            {
+                                String i=addtemp.get(1);
+                                if(i.equals(z))
+                                {
+                                    flag=true;
+                                    break;
+                                }
+                            }
+                            if(flag==false)
+                            {
+                                temp.add(y);//device
+                                temp.add(z);//name
+                                // System.out.print(temp+" ");
+                                av_computers.add(temp);
+                                System.out.println(av_computers);
+                                System.out.println("The device has been added!");
+                            }
+                            else
+                            {
+                                System.out.println("Name is Already Exist!");
+                            }
+                        }
+                        break;
+                    }
+                    case "CONNECT":
+                    {
+                        if(y.equals(z))
+                        {
+                            System.out.println("Invalid");
+                        }
+                        else
+                        {
+                            boolean flagy=false;
+                            boolean flagz=false;
+                            for(List<String> listtemp:av_computers)
+                            {
+                                String i=listtemp.get(1);
+                                if(i.equals(y))flagy=true;
+                                if(i.equals(z))flagz=true;
+                                if(flagy && flagz)break;
+                            }
+                            if(flagy==false||flagz==false)System.out.println("Invalid");
+                            else
+                            {
+                                temp.add(y);//name 1
+                                temp.add(z);//name 2
+                                connected.add(temp);
+                                System.out.println(connected);
+                            }
+                        }
+                        break;    
+                    }
+                    case "INFO_ROUTE":
+                    {
+                        if(z.charAt(0)=='R' || y.charAt(0)=='R')System.out.println("Route cannot be calculated with repeater");
+                        else
+                        {
+                            boolean flagy=false;
+                            boolean flagz=false;
+                            for(List<String> listtemp:av_computers)
+                            {
+                                String i=listtemp.get(1);
+                                if(i.equals(y))flagy=true;
+                                if(i.equals(z))flagz=true;
+                                if(flagy && flagz)break;
+                            }
+                            if(flagy==false||flagz==false)System.out.println("Invalid");
+                            else
+                            {
+                                int index=0;
+                                String next=y;
+                                for(List<String> routetemp:connected)
+                                {
+                                    String i=routetemp.get(0);
+                                    String j=routetemp.get(1);
+                                    if(i.equals(next))
+                                    {
+                                        next=routetemp.get(1);
+                                        System.out.print(i+" ");
+                                        if(next.equals(z))
+                                        {
+                                            System.out.print(next);
+                                            break;
+                                        }
+                                    }
+                                    if(j.equals(next))
+                                    {
+                                        next=routetemp.get(0);
+                                        System.out.print(i+" ");
+                                        if(next.equals(z))
+                                        {
+                                            System.out.print(next);
+                                            break;
+                                        }
+                                    }
+                                    
+                                    if(index>av_computers.size())
+                                    {
+                                        System.out.println("No route");
+                                    }
+                                    index++;
+                                }
+                                
+                            }
+                        }
+                        break;    
+                    }
+                }
+                
+            }
+            n--;
+        }
+
+    }
+}
